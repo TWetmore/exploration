@@ -1,31 +1,3 @@
-import React, {Component} from 'react'
-import {
-    Flex,
-    Box,
-    Heading,
-    FormControl,
-    FormLabel,
-    Input,
-    Button
-  } from '@chakra-ui/react';
-
-class App extends Component {
-
-
-  render() {
-
-    return(
-    
-    )
-  }
-}
-
-
-export default App;
-
-
-/// **** 
-
 
 import React, {Component} from 'react'
 import {
@@ -86,6 +58,9 @@ class SignUp extends Component  {
 
     const dataEntryStyle = {marginLeft: 150, marginRight: 200};
 
+    const {account, errors} = this.state;
+ 
+
     return (
         <Flex width="full" align="center" justifyContent="center">
           <Box p={2}>
@@ -97,23 +72,24 @@ class SignUp extends Component  {
               <FormControl>
                   <FormLabel>Username</FormLabel>
                   <Input type="Username" placeholder="username" onChange = {this.handleChange}/>
-                  {errors.username && <div style ={dataEntryStyle} className = "alert alert-danger">{errors.username}</div>}
+                  <div></div>
+                  {errors.username && <div style ={dataEntryStyle} >{errors.username}</div>}
             </FormControl>
                 <FormControl>
                   <FormLabel>Email</FormLabel>
                   <Input type="email" placeholder="test@test.com" onChange = {this.handleChange}/>
-                  {errors.email && <div style ={dataEntryStyle} className = "alert alert-danger">{errors.email}</div>}
+                  {errors.email && <div style ={dataEntryStyle} >{errors.email}</div>}
                 </FormControl>
                 <FormControl mt={6}>
                   <FormLabel>Password</FormLabel>
                   <Input type="password" placeholder="*******" onChange = {this.handleChange}/>
-                  {errors.password && <div style ={dataEntryStyle} className = "alert alert-danger">{errors.email}</div>}
+                  {errors.password && <div style ={dataEntryStyle} >{errors.email}</div>}
                 </FormControl>
                 <FormControl mt={6}>
                   <FormLabel>Confirm Password</FormLabel>
-                  <Input type="confirmPassword" placeholder="*******" onChange = {this.handleChange}/>
-                  {errors.confirmPassword && <div style ={dataEntryStyle} className = "alert alert-danger">{errors.confirmPassword}</div>}
-                  {errors.verifyPassword && <div style ={dataEntryStyle} className = "alert alert-danger">{errors.verifyPassword}</div>}
+                  <Input type="password" placeholder="*******" onChange = {this.handleChange}/>
+                  {errors.confirmPassword && <div style ={dataEntryStyle} >{errors.confirmPassword}</div>}
+                  {errors.verifyPassword && <div style ={dataEntryStyle} >{errors.verifyPassword}</div>}
                 </FormControl>
                 <Button width="full" mt={4} type="submit" onClick = {this.handleSubmit}>
                   Sign Up

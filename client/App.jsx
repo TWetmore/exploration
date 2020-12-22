@@ -1,11 +1,19 @@
-import React from 'react';
-import image from './assets/images/travel-world.jpg';
+import React, { Component } from 'react';
+import { ChakraProvider } from "@chakra-ui/react";
+import NavBar from './components/navBar.jsx'; 
+import HomePageContainer from './containers/homePage';
 
-const App = (props) => (
-  <div id="app" className="main-container">
-    <h1>Welcome to Exploration LLC</h1>
-    <img src={image} alt="exploration" />
-  </div>
-);
+class App extends Component {
+
+
+  render() {
+
+    return(
+      <ChakraProvider>
+        <HomePageContainer />
+      </ChakraProvider>
+    )
+  }
+}
 
 export default App;
