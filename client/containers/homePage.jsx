@@ -1,33 +1,25 @@
 import React, { Component } from 'react';
+import {useDisclosure}  from "@chakra-ui/react"
 
 import NavBar from '../components/navBar';
 import Footer from '../components/footer';
-import MyTrips from '../components/myTrips';
-import NewTripModal from '../modals/newTripModal'
+import IntroText from '../components/IntroText';
+import NewTripDrawer from '../modals/newTripButton';
 
 class HomePageContainer extends Component {
-  // state = { 
-  //   isOpen : false, 
-  //   modalsOpen : false,
-  // }
 
-  // handleModalToggle = () => {
-  //   let isOpen = !this.state.isOpen;
-  //   console.log(isOpen)
-  //   this.setState({isOpen});
-  //   console.log(this.state.isOpen);
-  // }
-
+  
   render() {
+  
+
     return (
       <>
 
-
         <NavBar />
 
-        <NewTripModal />
-        
-        <MyTrips />
+        <IntroText />
+
+        <NewTripDrawer />
 
         <Footer />
       </>
