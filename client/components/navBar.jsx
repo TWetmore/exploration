@@ -23,12 +23,11 @@ import { IconContext } from 'react-icons';
 // stateless functional component
 
 export default function NavBar() {
-  const handleSignOut = (id) => (
+  const handleSignOut = () => (
 
-    fetch(`/api/member/logout${id}`, {
-      method: 'POST',
+    fetch('/api/member/logout', {
+      method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      body: id,
     })
       .then(((body) => console.log(body)))
       .catch((error) => {
@@ -39,7 +38,7 @@ export default function NavBar() {
   return (
     <>
 
-      <Box border="1px" borderColor="teal.100" background="teal.50">
+      <Box border="1px" borderColor="cyan.400" background="cyan.300">
         <Grid templateColumns="repeat(3, 1fr)">
           <GridItem colSpan={2} m={2}>
             <Button colorScheme="teal" variant="outline">
@@ -49,7 +48,7 @@ export default function NavBar() {
           </GridItem>
           <GridItem colStart={4} colEnd={6}>
             <Menu>
-              <MenuButton fontSize={{ base: '15px', md: '18px', lg: '20px' }} colorScheme="teal" m={2} as={Button} rightIcon={<ChevronDownIcon />} borderRadius="full" boxShadow="base">
+              <MenuButton fontSize={{ base: '15px', md: '18px', lg: '20px' }} colorScheme="cyan" m={2} as={Button} rightIcon={<ChevronDownIcon />} borderRadius="full" boxShadow="base">
                 Your Trips
               </MenuButton>
               <MenuList>
