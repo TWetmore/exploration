@@ -5,7 +5,7 @@ import {
 } from '@chakra-ui/react';
 
 
-export default function MyTrips() {
+export default function IntroText() {
 
     return (
       <>
