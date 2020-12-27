@@ -1,4 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, Component } from 'react';
+
+import {
+  withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker,
+} from 'react-google-maps';
+import Geocode from 'react-geocode';
+
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 import {
   useDisclosure,
@@ -24,6 +31,9 @@ import {
 
 import { RiAddCircleFill } from 'react-icons/ri';
 
+Geocode.setApiKey('AIzaSyCftYGY9WZGwrfAtDLsFR7DKplydOraNw8');
+Geocode.enableDebug();
+
 export default function NewTripDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
@@ -38,6 +48,18 @@ export default function NewTripDrawer() {
 
   const handleMonthStart = (event) => {
     setMonthStart(event.target.value);
+  };
+
+  const [yearStart, setYearStart] = useState('none');
+
+  const handleYearStart = (event) => {
+    setYearStart(event.target.value);
+  };
+
+  const [location, setLocation] = useState('none');
+
+  const handleLocationChange = (event) => {
+    setLocation(event.target.value);
   };
 
   return (
@@ -74,21 +96,30 @@ export default function NewTripDrawer() {
                   Where you going?
                 </Text>
                 <Stack m={2}>
-                  <Input variant="outline" placeholder="Location" />
+                  <GooglePlacesAutocomplete
+                    apiKey="AIzaSyCftYGY9WZGwrfAtDLsFR7DKplydOraNw8"
+                    value={location}
+                    onChange={handleLocationChange}
+                    onPress={(data, details = null) => {
+                      console.log(data, details);
+                    }}
+                  />
                 </Stack>
                 <Flex m={2} textAlign={['left', 'center']} align="right">
-                  <Text fontSize="xl">Know the Dates?</Text>
+                  <Text fontSize="2xl">Know the Dates?</Text>
                 </Flex>
-                <Select
-                  placeholder="Select"
-                  value={datesKnown}
-                  onChange={handleDatesKnown}
-                >
-                  <option value="day">Down to the day</option>
-                  <option value="month">Know the month(s)!</option>
-                  <option value="year">Just the year</option>
-                  <option value="none">No dates planned yet!</option>
-                </Select>
+                <Stack m={2}>
+                  <Select
+                    placeholder="Select"
+                    value={datesKnown}
+                    onChange={handleDatesKnown}
+                  >
+                    <option value="day">Down to the day</option>
+                    <option value="month">Know the month(s)!</option>
+                    <option value="year">Just the year</option>
+                    <option value="none">No dates planned yet!</option>
+                  </Select>
+                </Stack>
                 {datesKnown !== 'none' && (
                   <Box
                     m={3}
@@ -117,18 +148,18 @@ export default function NewTripDrawer() {
                             value={monthStart}
                             onChange={handleMonthStart}
                           >
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
                           </Select>
                         </GridItem>
                       )}
@@ -182,7 +213,11 @@ export default function NewTripDrawer() {
                         || datesKnown === 'month'
                         || datesKnown === 'year') && (
                         <GridItem rowSpan={1} colSpan={1}>
-                          <Select placeholder="Year">
+                          <Select 
+                          placeholder="Year"
+                          value={yearStart}
+                          onChange={handleYearStart}
+                          >
                             <option value="2021">2021</option>
                             <option value="2022">2022</option>
                             <option value="2023">2023</option>
@@ -199,12 +234,17 @@ export default function NewTripDrawer() {
                     </Grid>
                   </Box>
                 )}
-                {datesKnown !== 'none' && (
-                  <Box borderWidth="1px" borderRadius="lg" overflow="hidden">
+                {(datesKnown !== 'none' && yearStart !=='none') &&  (
+                  <Box
+                    m={3}
+                    borderWidth="1px"
+                    borderRadius="lg"
+                    overflow="hidden"
+                  >
                     <Grid
                       templateColumns="repeat(2, 1fr)"
                       templateRows="repeat(3, 1fr)"
-                      gap={4}
+                      gap={1}
                     >
                       <GridItem rowSpan={3} colSpan={1}>
                         <Flex
@@ -216,59 +256,59 @@ export default function NewTripDrawer() {
                         </Flex>
                       </GridItem>
                       {(datesKnown === 'day' || datesKnown === 'month') && (
-                        <GridItem rowSpan={1} colSpan={1}>
-                          <Select placeholder="Month">
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                          </Select>
-                        </GridItem>
+                      <GridItem rowSpan={1} colSpan={1}>
+                        <Select placeholder={monthStart}>
+                          <option value="1">January</option>
+                          <option value="2">February</option>
+                          <option value="3">March</option>
+                          <option value="4">April</option>
+                          <option value="5">May</option>
+                          <option value="6">June</option>
+                          <option value="7">July</option>
+                          <option value="8">August</option>
+                          <option value="9">September</option>
+                          <option value="10">October</option>
+                          <option value="11">November</option>
+                          <option value="12">December</option>
+                        </Select>
+                      </GridItem>
                       )}
                       {datesKnown === 'day' && (
-                        <GridItem rowSpan={1} colSpan={1}>
-                          <Select placeholder="Day">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
-                            <option value="21">21</option>
-                            <option value="22">22</option>
-                            <option value="23">23</option>
-                            <option value="24">24</option>
-                            <option value="25">25</option>
-                            <option value="26">26</option>
-                            <option value="27">27</option>
-                            <option value="28">28</option>
-                            <option value="29">29</option>
-                            <option value="30">30</option>
-                            <option value="31">31</option>
-                          </Select>
-                        </GridItem>
+                      <GridItem rowSpan={1} colSpan={1}>
+                        <Select placeholder="Day">
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
+                          <option value="13">13</option>
+                          <option value="14">14</option>
+                          <option value="15">15</option>
+                          <option value="16">16</option>
+                          <option value="17">17</option>
+                          <option value="18">18</option>
+                          <option value="19">19</option>
+                          <option value="20">20</option>
+                          <option value="21">21</option>
+                          <option value="22">22</option>
+                          <option value="23">23</option>
+                          <option value="24">24</option>
+                          <option value="25">25</option>
+                          <option value="26">26</option>
+                          <option value="27">27</option>
+                          <option value="28">28</option>
+                          <option value="29">29</option>
+                          <option value="30">30</option>
+                          <option value="31">31</option>
+                        </Select>
+                      </GridItem>
                       )}
 
                       {(datesKnown === 'day'
@@ -299,14 +339,11 @@ export default function NewTripDrawer() {
                 <Button colorScheme="purple" m={1} onClick={onClose}>
                   Cancel
                 </Button>
-                <Button colorScheme="teal" m={1}>
-                  Save
+                <Button colorScheme="teal" leftIcon={<RiAddCircleFill />} m={1}>
+                  Add Trip
                 </Button>
               </Flex>
-
-              <Button onClick={() => console.log(monthStart)}>
-                show me the state
-              </Button>
+              <Button onClick={() => console.log(location)}>Show State</Button>
             </DrawerBody>
           </DrawerContent>
         </DrawerOverlay>

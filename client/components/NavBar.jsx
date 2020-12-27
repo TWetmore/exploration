@@ -35,7 +35,7 @@ export default function NavBar() {
 
   return (
     <>
-      <Box border="1px" borderColor="cyan.400" background="cyan.300">
+      <Box border="1px" borderColor="teal.100" background="teal.50">
         <Grid templateColumns="repeat(3, 1fr)">
           <GridItem colSpan={2} m={2}>
             <Button colorScheme="teal" variant="outline">
@@ -49,7 +49,7 @@ export default function NavBar() {
             <Menu>
               <MenuButton
                 fontSize={{ base: '15px', md: '18px', lg: '20px' }}
-                colorScheme="cyan"
+                colorScheme="teal"
                 m={2}
                 as={Button}
                 rightIcon={<ChevronDownIcon />}
@@ -68,12 +68,9 @@ export default function NavBar() {
             <Button
               m={2}
               fontSize={{ base: '15px', md: '18px', lg: '20px' }}
-              align="right"
               colorScheme="purple"
-              variant="solid"
               borderRadius="full"
               boxShadow="base"
-              verticalAlign="right"
               onClick={handleSignOut}
             >
               Log Out
