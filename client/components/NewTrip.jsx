@@ -1,18 +1,11 @@
-import React, { useState, Component } from 'react';
-
-import {
-  withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker,
-} from 'react-google-maps';
-import Geocode from 'react-geocode';
+import React, { useState } from 'react';
 
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 import {
   useDisclosure,
-  Input,
   Drawer,
   DrawerBody,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
@@ -21,7 +14,6 @@ import {
   Button,
   FormControl,
   Stack,
-  Checkbox,
   Text,
   Box,
   Grid,
@@ -31,17 +23,22 @@ import {
 
 import { RiAddCircleFill } from 'react-icons/ri';
 
-Geocode.setApiKey('AIzaSyCftYGY9WZGwrfAtDLsFR7DKplydOraNw8');
-Geocode.enableDebug();
-
-export default function NewTripDrawer() {
+const NewTripDrawer = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
+  const { handleNewTrip } = props
+
 
   const [datesKnown, setKnownDates] = useState('none');
 
   const handleDatesKnown = (event) => {
     setKnownDates(event.target.value);
+  };
+
+  const [dayStart, setDayStart] = useState('none');
+
+  const handleDayStart = (event) => {
+    setDayStart(event.target.value);
   };
 
   const [monthStart, setMonthStart] = useState('none');
@@ -56,12 +53,30 @@ export default function NewTripDrawer() {
     setYearStart(event.target.value);
   };
 
-  const [location, setLocation] = useState('none');
+  const [dayEnd, setDayEnd] = useState('none');
 
-  const handleLocationChange = (event) => {
-    setLocation(event.target.value);
+  const handleDayEnd = (event) => {
+    setDayEnd(event.target.value);
   };
 
+  const [monthEnd, setMonthEnd] = useState('none');
+
+  const handleMonthEnd = (event) => {
+    setMonthEnd(event.target.value);
+  };
+
+  const [yearEnd, setYearEnd] = useState('none');
+
+  const handleYearEnd = (event) => {
+    setYearEnd(event.target.value);
+  };
+
+  const [location, setLocation] = useState('none');
+
+  const onSubmit = () => {
+    handleNewTrip(location, datesKnown, monthStart, dayStart, yearStart, monthEnd, dayEnd, yearEnd);
+    onClose();
+  };
   return (
     <>
       <Flex justifyContent="center">
@@ -98,10 +113,15 @@ export default function NewTripDrawer() {
                 <Stack m={2}>
                   <GooglePlacesAutocomplete
                     apiKey="AIzaSyCftYGY9WZGwrfAtDLsFR7DKplydOraNw8"
-                    value={location}
-                    onChange={handleLocationChange}
-                    onPress={(data, details = null) => {
+                    onPlaceSelected={(data, details = null) => {
                       console.log(data, details);
+                    }}
+                    onLoadFailed={(error) => (
+                      console.error('Could not inject Google script', error)
+                    )}
+                    selectProps={{
+                      location,
+                      onChange: setLocation,
                     }}
                   />
                 </Stack>
@@ -148,24 +168,29 @@ export default function NewTripDrawer() {
                             value={monthStart}
                             onChange={handleMonthStart}
                           >
-                            <option value="January">January</option>
-                            <option value="February">February</option>
-                            <option value="March">March</option>
-                            <option value="April">April</option>
-                            <option value="May">May</option>
-                            <option value="June">June</option>
-                            <option value="July">July</option>
-                            <option value="August">August</option>
-                            <option value="September">September</option>
-                            <option value="October">October</option>
-                            <option value="November">November</option>
-                            <option value="December">December</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+
                           </Select>
                         </GridItem>
                       )}
                       {datesKnown === 'day' && (
                         <GridItem rowSpan={1} colSpan={1}>
-                          <Select placeholder="Day">
+                          <Select
+                            placeholder="Day"
+                            value={dayStart}
+                            onChange={handleDayStart}
+                          >
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -213,10 +238,10 @@ export default function NewTripDrawer() {
                         || datesKnown === 'month'
                         || datesKnown === 'year') && (
                         <GridItem rowSpan={1} colSpan={1}>
-                          <Select 
-                          placeholder="Year"
-                          value={yearStart}
-                          onChange={handleYearStart}
+                          <Select
+                            placeholder="Year"
+                            value={yearStart}
+                            onChange={handleYearStart}
                           >
                             <option value="2021">2021</option>
                             <option value="2022">2022</option>
@@ -234,7 +259,7 @@ export default function NewTripDrawer() {
                     </Grid>
                   </Box>
                 )}
-                {(datesKnown !== 'none' && yearStart !=='none') &&  (
+                {(datesKnown !== 'none' && yearStart !== 'none') && (
                   <Box
                     m={3}
                     borderWidth="1px"
@@ -257,7 +282,11 @@ export default function NewTripDrawer() {
                       </GridItem>
                       {(datesKnown === 'day' || datesKnown === 'month') && (
                       <GridItem rowSpan={1} colSpan={1}>
-                        <Select placeholder={monthStart}>
+                        <Select
+                          placeholder="Month"
+                          value={monthEnd}
+                          onChange={handleMonthEnd}
+                        >
                           <option value="1">January</option>
                           <option value="2">February</option>
                           <option value="3">March</option>
@@ -275,7 +304,11 @@ export default function NewTripDrawer() {
                       )}
                       {datesKnown === 'day' && (
                       <GridItem rowSpan={1} colSpan={1}>
-                        <Select placeholder="Day">
+                        <Select
+                          placeholder="Day"
+                          value={dayEnd}
+                          onChange={handleDayEnd}
+                        >
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -315,7 +348,11 @@ export default function NewTripDrawer() {
                         || datesKnown === 'month'
                         || datesKnown === 'year') && (
                         <GridItem rowSpan={1} colSpan={1}>
-                          <Select placeholder="Year">
+                          <Select
+                            placeholder="Year"
+                            value={yearEnd}
+                            onChange={handleYearEnd}
+                          >
                             <option value="2021">2021</option>
                             <option value="2022">2022</option>
                             <option value="2023">2023</option>
@@ -339,15 +376,17 @@ export default function NewTripDrawer() {
                 <Button colorScheme="purple" m={1} onClick={onClose}>
                   Cancel
                 </Button>
-                <Button colorScheme="teal" leftIcon={<RiAddCircleFill />} m={1}>
+                <Button colorScheme="teal" leftIcon={<RiAddCircleFill />} onClick={onSubmit} m={1}>
                   Add Trip
                 </Button>
               </Flex>
-              <Button onClick={() => console.log(location)}>Show State</Button>
+              <Button onClick={onSubmit}>Show State</Button>
             </DrawerBody>
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>
     </>
   );
-}
+};
+
+export default NewTripDrawer;
