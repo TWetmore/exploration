@@ -19,6 +19,7 @@ import {
   Grid,
   GridItem,
   Select,
+  Input,
 } from '@chakra-ui/react';
 
 import { RiAddCircleFill } from 'react-icons/ri';
@@ -26,8 +27,13 @@ import { RiAddCircleFill } from 'react-icons/ri';
 const NewTripDrawer = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
-  const { handleNewTrip } = props
+  const { handleNewTrip } = props;
 
+  const [tripName, setTripName] = useState('');
+
+  const handleTripName = (event) => {
+    setTripName(event.target.value);
+  };
 
   const [datesKnown, setKnownDates] = useState('none');
 
@@ -74,9 +80,32 @@ const NewTripDrawer = (props) => {
   const [location, setLocation] = useState('none');
 
   const onSubmit = () => {
-    handleNewTrip(location, datesKnown, monthStart, dayStart, yearStart, monthEnd, dayEnd, yearEnd);
+    const days = [monthStart, dayStart, yearStart, monthEnd, dayEnd, yearEnd];
+    let tripStart;
+    let tripEnd;
     onClose();
+    switch (datesKnown) {
+      case 'day':
+        tripStart = new Date(yearStart, monthStart, yearStart);
+        tripEnd = new Date(yearEnd, monthEnd, dayEnd);
+        break;
+      case 'month':
+        tripStart = new Date(yearStart, monthStart);
+        tripEnd = new Date(yearEnd, monthEnd);
+        break;
+      case 'year':
+        tripStart = yearStart;
+        tripEnd = yearEnd;
+        break;
+      case 'none':
+        tripStart = 'none';
+        tripEnd = 'none';
+        break;
+    }
+    handleNewTrip(tripName, location, datesKnown, tripStart, tripEnd);
   };
+
+
   return (
     <>
       <Flex justifyContent="center">
@@ -107,6 +136,14 @@ const NewTripDrawer = (props) => {
 
             <DrawerBody>
               <FormControl>
+                <Text m={2} fontSize="2xl">
+                  Name your trip!
+                </Text>
+                <Input m={2} 
+                placeholder="Spring Break? Honeymoon? Dream Vacation?"
+                value={tripName}
+                onChange={handleTripName}
+                />
                 <Text m={2} fontSize="2xl">
                   Where you going?
                 </Text>

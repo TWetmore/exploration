@@ -46,25 +46,7 @@ export default function NavBar() {
             </Button>
           </GridItem>
           <GridItem colStart={4} colEnd={6}>
-            <Menu>
-              <MenuButton
-                fontSize={{ base: '15px', md: '18px', lg: '20px' }}
-                colorScheme="teal"
-                m={2}
-                as={Button}
-                rightIcon={<ChevronDownIcon />}
-                borderRadius="full"
-                boxShadow="base"
-              >
-                Your Trips
-              </MenuButton>
-              <MenuList>
-                <MenuItem minH="48px">
-                  <Image boxSize="2rem" borderRadius="full" mr="12px" />
-                  <span>Trip 1</span>
-                </MenuItem>
-              </MenuList>
-            </Menu>
+
             <Button
               m={2}
               fontSize={{ base: '15px', md: '18px', lg: '20px' }}

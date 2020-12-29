@@ -16,4 +16,5 @@ route.get('/logout', authController.logout, (req, res) => {
   res.status(200).json({ message: res.locals.message });
 });
 
+
 module.exports = route;
