@@ -4,6 +4,7 @@ import LoginPage from './containers/LoginPage';
 import SignupPage from './containers/SignupPage';
 import HomePage from './containers/HomePage';
 import TimeHomePage from './containers/time/TimeHomePage';
+import TripPage from './containers/aTripPage'
 // import ResetPasswordPage from './containers/ResetPasswordPage';
 
 const App = () => (
@@ -14,6 +15,7 @@ const App = () => (
       <Route path="/signup" exact component={SignupPage} /> */}
       {/* <Route path="/resetpassword" exact component={ResetPasswordPage} /> */}
       <Route path="/" exact component={TimeHomePage} />
+      {/* <Route path="/" exact component={TripPage} /> */}
     </Switch>
   </div>
 );

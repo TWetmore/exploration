@@ -7,10 +7,6 @@ import NewTripDrawer from '../../components/NewTrip';
 import TripListContainer from './tripList';
 
 
-import {
-  Button,
-} from '@chakra-ui/react';
-
 class TimeHomePage extends Component {
   state = {
     trips : [
@@ -58,11 +54,6 @@ class TimeHomePage extends Component {
         });
   }
 
-  showState = () => {
-    console.log(this.state);
-  }
-
-
   render() {
     return (
       <>
@@ -70,7 +61,6 @@ class TimeHomePage extends Component {
         <IntroText />
         <NewTripDrawer handleNewTrip = {this.handleNewTrip} />
         <TripListContainer trips = {this.state.trips}/>
-        <Button onClick = {this.showState}>check state</Button>
         <Footer />
       </>
     );

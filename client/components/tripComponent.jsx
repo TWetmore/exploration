@@ -24,7 +24,7 @@ import {
 
 const TripPlanned = (props) => {
   const max = props.trips.locationPhotos.length;
-  const randPhoto = Math.floor(Math.random() * (max - 0 + 1) + 0);
+  const randPhoto = Math.floor(Math.random() * (max + 1) + 0) - 1;
   console.log(randPhoto);
   const photo = props.trips.locationPhotos[randPhoto];
   console.log(photo, props.trips.location, props.trips.tripStart, props.trips.tripEnd);

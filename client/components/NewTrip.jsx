@@ -139,7 +139,8 @@ const NewTripDrawer = (props) => {
                 <Text m={2} fontSize="2xl">
                   Name your trip!
                 </Text>
-                <Input m={2} 
+                <Input 
+                m={2} 
                 placeholder="Spring Break? Honeymoon? Dream Vacation?"
                 value={tripName}
                 onChange={handleTripName}
@@ -417,7 +418,6 @@ const NewTripDrawer = (props) => {
                   Add Trip
                 </Button>
               </Flex>
-              <Button onClick={onSubmit}>Show State</Button>
             </DrawerBody>
           </DrawerContent>
         </DrawerOverlay>

@@ -35,7 +35,8 @@ export default function NavBar() {
 
   return (
     <>
-      <Box border="1px" borderColor="teal.100" background="teal.50">
+      <Box border="1px" borderColor="teal.100" background="teal.50"
+      >
         <Grid templateColumns="repeat(3, 1fr)">
           <GridItem colSpan={2} m={2}>
             <Button colorScheme="teal" variant="outline">
