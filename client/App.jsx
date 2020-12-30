@@ -10,12 +10,12 @@ import TripPage from './containers/aTripPage'
 const App = () => (
   <div id="app" className="main-container">
     <Switch>
-      {/* <Route path="/" exact component={HomePage} />
+      <Route path="/" exact component={HomePage} />
       <Route path="/login" exact component={LoginPage} />
-      <Route path="/signup" exact component={SignupPage} /> */}
+      <Route path="/signup" exact component={SignupPage} />
       {/* <Route path="/resetpassword" exact component={ResetPasswordPage} /> */}
-      <Route path="/" exact component={TimeHomePage} />
-      {/* <Route path="/" exact component={TripPage} /> */}
+      <Route path="/time/home" exact component={TimeHomePage} />
+      <Route path="/trip" exact component={TripPage} />
     </Switch>
   </div>
 );
